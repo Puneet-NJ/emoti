@@ -9,6 +9,7 @@ import axios from "axios";
 const Admin = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
 	return (
@@ -43,20 +44,27 @@ const Admin = () => {
 					/>
 					<ButtonComp
 						onClick={async () => {
-							const response = await axios({
-								url: "http://localhost:3001/api/v1/admin/signin",
-								method: "POST",
-								data: {
-									username,
-									password,
-								},
-							});
-							localStorage.setItem("token", response.data.token);
+							try {
+								const response = await axios({
+									url: "http://localhost:3001/api/v1/admin/signin",
+									method: "POST",
+									data: {
+										username,
+										password,
+									},
+								});
 
-							if (response.status === 200) navigate("/admin/actions");
+								localStorage.setItem("token", response.data.token);
+
+								if (response.status === 200) navigate("/admin/actions");
+							} catch (err) {
+								setError(err.response.data.msg);
+							}
 						}}
 						label={"Sign in"}
 					/>
+
+					<div className="font-semibold text-center text-red-600">{error}</div>
 				</form>
 			</div>
 		</div>

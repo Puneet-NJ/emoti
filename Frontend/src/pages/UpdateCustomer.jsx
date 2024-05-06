@@ -9,15 +9,12 @@ import BackButton from "../components/BackButton";
 import Footer from "../components/Footer";
 
 const UpdateCustomer = () => {
-	const initialCompany = () => {
-		return "Default";
-	};
 	const [company, setCompany] = useState("");
 	const [email, setEmail] = useState("");
 	const [startDate, setStartDate] = useState("");
 	const [endDate, setEndDate] = useState("");
 	const [companies, setCompanies] = useState([]);
-	const [value, setValue] = useState(initialCompany());
+	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -83,23 +80,30 @@ const UpdateCustomer = () => {
 					<ButtonComp
 						label={"Submit"}
 						onClick={async () => {
-							const response = await axios({
-								url: "http://localhost:3001/api/v1/admin/createCompany",
-								method: "POST",
-								headers: {
-									Authorization: `Bearer ${localStorage.getItem("token")}`,
-								},
-								data: {
-									name: company,
-									email,
-									demoStartDate: startDate,
-									demoEndDate: endDate,
-								},
-							});
-							if (response.status === 200)
-								alert("Customer updated successfully");
+							try {
+								const response = await axios({
+									url: "http://localhost:3001/api/v1/admin/createCompany",
+									method: "POST",
+									headers: {
+										Authorization: `Bearer ${localStorage.getItem("token")}`,
+									},
+									data: {
+										name: company,
+										email,
+										demoStartDate: startDate,
+										demoEndDate: endDate,
+									},
+								});
+								if (response.status === 200)
+									alert("Customer updated successfully");
+							} catch (err) {
+								setError(err.response.data.msg);
+							}
 						}}
 					/>
+
+					<div className="font-semibold text-center text-red-600">{error}</div>
+
 					<Link
 						to={"/admin/actions/createCustomer"}
 						className="text-sm hover:underline font-medium"

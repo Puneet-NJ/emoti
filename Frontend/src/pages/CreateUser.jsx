@@ -11,6 +11,8 @@ const CreateUser = () => {
 	const [name, setName] = useState("");
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
+
 	const navigate = useNavigate();
 
 	return (
@@ -51,22 +53,28 @@ const CreateUser = () => {
 					<ButtonComp
 						label={"Submit"}
 						onClick={async () => {
-							const response = await axios({
-								url: "http://localhost:3001/api/v1/admin/createUser",
-								method: "POST",
-								headers: {
-									Authorization: `Bearer ${localStorage.getItem("token")}`,
-								},
-								data: {
-									name,
-									username,
-									password,
-								},
-							});
-							if (response.status === 200)
-								alert("User registered successfully");
+							try {
+								const response = await axios({
+									url: "http://localhost:3001/api/v1/admin/createUser",
+									method: "POST",
+									headers: {
+										Authorization: `Bearer ${localStorage.getItem("token")}`,
+									},
+									data: {
+										name,
+										username,
+										password,
+									},
+								});
+								if (response.status === 200)
+									alert("User registered successfully");
+							} catch (err) {
+								setError(err.response.data.msg);
+							}
 						}}
 					/>
+
+					<div className="font-semibold text-center text-red-600">{error}</div>
 				</form>
 
 				<div className="absolute left-10 bottom-20">

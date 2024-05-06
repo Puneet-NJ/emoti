@@ -9,8 +9,10 @@ import axios from "axios";
 const User = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
+	// console.log(error + " hi");
 	return (
 		<div className="h-screen ">
 			<Header />
@@ -43,20 +45,27 @@ const User = () => {
 					/>
 					<ButtonComp
 						onClick={async () => {
-							const response = await axios({
-								url: "http://localhost:3001/api/v1/user/signin",
-								method: "POST",
-								data: {
-									username,
-									password,
-								},
-							});
-							localStorage.setItem("token", response.data.token);
+							try {
+								const response = await axios({
+									url: "http://localhost:3001/api/v1/user/signin",
+									method: "POST",
+									data: {
+										username,
+										password,
+									},
+								});
 
-							if (response.status === 200) navigate("/user/actions");
+								localStorage.setItem("token", response.data.token);
+
+								if (response.status === 200) navigate("/user/actions");
+							} catch (err) {
+								setError(err.response.data.msg);
+							}
 						}}
 						label={"Sign in"}
 					/>
+
+					<div className="font-semibold text-center text-red-600">{error}</div>
 				</form>
 			</div>
 		</div>

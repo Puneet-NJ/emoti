@@ -10,6 +10,7 @@ import Footer from "../components/Footer";
 const deleteCustomer = () => {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
+	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
 	return (
@@ -42,21 +43,27 @@ const deleteCustomer = () => {
 					<ButtonComp
 						label={"Submit"}
 						onClick={async () => {
-							const response = await axios({
-								url: "http://localhost:3001/api/v1/admin/deleteCompany",
-								method: "DELETE",
-								headers: {
-									Authorization: `Bearer ${localStorage.getItem("token")}`,
-								},
-								data: {
-									name,
-									email,
-								},
-							});
-							if (response.status === 200)
-								alert("Customer deleted successfully");
+							try {
+								const response = await axios({
+									url: "http://localhost:3001/api/v1/admin/deleteCompany",
+									method: "DELETE",
+									headers: {
+										Authorization: `Bearer ${localStorage.getItem("token")}`,
+									},
+									data: {
+										name,
+										email,
+									},
+								});
+								if (response.status === 200)
+									alert("Customer deleted successfully");
+							} catch (err) {
+								setError(err.response.data.msg);
+							}
 						}}
 					/>
+
+					<div className="font-semibold text-center text-red-600">{error}</div>
 				</form>
 
 				<div className="absolute left-10 bottom-20">

@@ -10,6 +10,8 @@ import axios from "axios";
 const DeleteUser = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [error, setError] = useState("");
+
 	const navigate = useNavigate();
 
 	return (
@@ -40,20 +42,26 @@ const DeleteUser = () => {
 					<ButtonComp
 						label={"Submit"}
 						onClick={async () => {
-							const response = await axios({
-								url: "http://localhost:3001/api/v1/admin/deleteUser",
-								method: "DELETE",
-								headers: {
-									Authorization: `Bearer ${localStorage.getItem("token")}`,
-								},
-								data: {
-									username,
-									password,
-								},
-							});
-							if (response.status === 200) alert("User deleted successfully");
+							try {
+								const response = await axios({
+									url: "http://localhost:3001/api/v1/admin/deleteUser",
+									method: "DELETE",
+									headers: {
+										Authorization: `Bearer ${localStorage.getItem("token")}`,
+									},
+									data: {
+										username,
+										password,
+									},
+								});
+								if (response.status === 200) alert("User deleted successfully");
+							} catch (err) {
+								setError(err.response.data.msg);
+							}
 						}}
 					/>
+
+					<div className="font-semibold text-center text-red-600">{error}</div>
 				</form>
 
 				<div className="absolute left-10 bottom-20">
