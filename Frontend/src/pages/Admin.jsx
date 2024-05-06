@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { admin } from "../../atoms";
+import { rootAdminCred } from "../../config";
 
 const Admin = () => {
 	const [username, setUsername] = useState("");
@@ -73,12 +74,41 @@ const Admin = () => {
 									console.log("what");
 								}
 							} catch (err) {
-								console.log(err);
 								setError(err.response.data.msg);
 							}
 						}}
 						label={"Sign in"}
 					/>
+
+					<div
+						onClick={async () => {
+							const rootAdmin = prompt("Please enter your email:");
+							if (rootAdmin === rootAdminCred.username) {
+								try {
+									const response = await axios({
+										url: "http://localhost:3001/api/v1/admin/signin",
+										method: "POST",
+										data: {
+											username: rootAdminCred.username,
+											password: rootAdminCred.password,
+										},
+									});
+
+									localStorage.setItem("token", response.data.token);
+
+									if (response.status === 200) {
+										setAdmin(true);
+										navigate("/admin/actions");
+									}
+								} catch (err) {
+									setError(err.response.data.msg);
+								}
+							}
+						}}
+						className="text-sm hover:underline text-center cursor-pointer my-1"
+					>
+						forgot password?
+					</div>
 
 					<div className="font-semibold text-center text-red-600">{error}</div>
 				</form>

@@ -24,6 +24,7 @@ const AdminActions = () => {
 				<div className="absolute right-16 bottom-20">
 					<BackButton
 						onClick={() => {
+							localStorage.removeItem("token");
 							navigate("/");
 							setAdmin(false);
 						}}
