@@ -4,6 +4,8 @@ import BackButton from "../components/BackButton";
 import { useNavigate } from "react-router-dom";
 import Footer from "../components/Footer";
 import axios from "axios";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { user } from "../../atoms";
 
 const UserActions = () => {
 	const initialCompany = () => {
@@ -12,6 +14,9 @@ const UserActions = () => {
 
 	const [companies, setCompanies] = useState([]);
 	const navigate = useNavigate();
+
+	const userLogged = useRecoilValue(user);
+	const setUser = useSetRecoilState(user);
 
 	useEffect(() => {
 		axios({
@@ -23,12 +28,26 @@ const UserActions = () => {
 		}).then((response) => setCompanies(response.data.companies));
 	}, []);
 
+	useEffect(() => {
+		if (!userLogged) navigate("/");
+	}, [userLogged]);
+
 	return (
 		<div>
 			<Header />
 
 			<div className="pt-36 text-center px-64 bg-slate-100 h-screen">
 				<h1 className="font-medium text-3xl mt-10">User Dashboard</h1>
+
+				<div className="absolute right-16 bottom-20">
+					<BackButton
+						onClick={() => {
+							navigate("/");
+							setUser(false);
+						}}
+						label={"Log out"}
+					/>
+				</div>
 
 				<div className="mt-12 flex flex-col gap-2 bg-white w-1/2 mx-auto shadow-xl rounded-md py-7">
 					<label htmlFor="company" className="font-medium">

@@ -1,16 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import InputBox from "../components/InputBox";
 import ButtonComp from "../components/ButtonComp";
 import BackButton from "../components/BackButton";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { admin } from "../../atoms";
 
 const Admin = () => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
+
+	const setAdmin = useSetRecoilState(admin);
+	const adminLogged = useRecoilValue(admin);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (adminLogged) {
+			navigate("/admin/actions");
+		}
+	}, [adminLogged]);
 
 	return (
 		<div className="h-screen ">
@@ -56,8 +67,13 @@ const Admin = () => {
 
 								localStorage.setItem("token", response.data.token);
 
-								if (response.status === 200) navigate("/admin/actions");
+								if (response.status === 200) {
+									setAdmin(true);
+									navigate("/admin/actions");
+									console.log("what");
+								}
 							} catch (err) {
+								console.log(err);
 								setError(err.response.data.msg);
 							}
 						}}

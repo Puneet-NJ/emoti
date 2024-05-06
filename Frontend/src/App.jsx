@@ -10,34 +10,37 @@ import DeleteCustomer from "./pages/DeleteCustomer";
 import UserActions from "./pages/UserActions";
 import DisplayCustomer from "./pages/DisplayCustomer";
 import UpdateCustomer from "./pages/UpdateCustomer";
+import { RecoilRoot } from "recoil";
 
 function App() {
 	return (
-		<BrowserRouter>
-			<Routes>
-				<Route path="/" element={<MainPortal />} />
-				<Route path="/user" element={<User />} />
-				<Route path="/admin" element={<Admin />} />
-				<Route path="/admin/actions" element={<AdminActions />} />
-				<Route
-					path="/admin/actions/createCustomer"
-					element={<CreateCustomer />}
-				/>
-				<Route
-					path="/admin/actions/updateCustomer"
-					element={<UpdateCustomer />}
-				/>
-				<Route
-					path="/admin/actions/deleteCustomer"
-					element={<DeleteCustomer />}
-				/>
-				<Route path="/admin/actions/createUser" element={<CreateUser />} />
-				<Route path="/admin/actions/deleteUser" element={<DeleteUser />} />
+		<RecoilRoot>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<MainPortal />} />
+					<Route path="/user" element={<User />} />
+					<Route path="/admin" element={<Admin />} />
+					<Route path="/admin/actions" element={<AdminActions />} />
+					<Route
+						path="/admin/actions/createCustomer"
+						element={<CreateCustomer />}
+					/>
+					<Route
+						path="/admin/actions/updateCustomer"
+						element={<UpdateCustomer />}
+					/>
+					<Route
+						path="/admin/actions/deleteCustomer"
+						element={<DeleteCustomer />}
+					/>
+					<Route path="/admin/actions/createUser" element={<CreateUser />} />
+					<Route path="/admin/actions/deleteUser" element={<DeleteUser />} />
 
-				<Route path="/user/actions" element={<UserActions />} />
-				<Route path="/user/actions/customer" element={<DisplayCustomer />} />
-			</Routes>
-		</BrowserRouter>
+					<Route path="/user/actions" element={<UserActions />} />
+					<Route path="/user/actions/customer" element={<DisplayCustomer />} />
+				</Routes>
+			</BrowserRouter>
+		</RecoilRoot>
 	);
 }
 

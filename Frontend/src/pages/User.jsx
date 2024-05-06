@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../components/Header";
 import InputBox from "../components/InputBox";
 import ButtonComp from "../components/ButtonComp";
 import BackButton from "../components/BackButton";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { user } from "../../atoms";
 
 const User = () => {
 	const [username, setUsername] = useState("");
@@ -12,7 +14,13 @@ const User = () => {
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
-	// console.log(error + " hi");
+	const userLogged = useRecoilValue(user);
+	const setUser = useSetRecoilState(user);
+
+	useEffect(() => {
+		if (userLogged) navigate("/user/actions");
+	}, [userLogged]);
+
 	return (
 		<div className="h-screen ">
 			<Header />
@@ -57,7 +65,10 @@ const User = () => {
 
 								localStorage.setItem("token", response.data.token);
 
-								if (response.status === 200) navigate("/user/actions");
+								if (response.status === 200) {
+									setUser(true);
+									navigate("/user/actions");
+								}
 							} catch (err) {
 								setError(err.response.data.msg);
 							}
