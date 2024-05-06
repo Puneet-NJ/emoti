@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import axios from "axios";
 import InputBox from "../components/InputBox";
@@ -45,19 +45,19 @@ const UpdateCustomer = () => {
 						</label>
 						<select
 							onChange={(e) => {
-								setValue((prev) => e.target.value);
-								setCompany(e.target.value.name);
-								setEmail(e.target.value.email);
-								console.log(e.target.value.name);
-								console.log(e.target.value);
+								const selectedCompany = companies.find(
+									(company) => company._id === e.target.value
+								);
+								setEmail(selectedCompany.email);
+								setCompany(selectedCompany.name);
 							}}
 							id="company"
 							name="company"
-							className="border border-gray-600 rounded py-1 outline-none w-full px-2"
+							className="border border-gray-300 rounded py-1 outline-none w-52 px-2"
 						>
 							<option value={"Default"}>Default</option>
 							{companies.map((company) => (
-								<option key={company._id} value={company}>
+								<option key={company._id} value={company._id}>
 									{company.name}
 								</option>
 							))}
@@ -83,7 +83,6 @@ const UpdateCustomer = () => {
 					<ButtonComp
 						label={"Submit"}
 						onClick={async () => {
-							console.log(email + " " + company);
 							const response = await axios({
 								url: "http://localhost:3001/api/v1/admin/createCompany",
 								method: "POST",
@@ -101,12 +100,18 @@ const UpdateCustomer = () => {
 								alert("Customer updated successfully");
 						}}
 					/>
+					<Link
+						to={"/admin/actions/createCustomer"}
+						className="text-sm hover:underline font-medium"
+					>
+						<p className="text-center">Create a new company?</p>
+					</Link>
 				</form>
 				<div className="absolute left-10 bottom-20">
 					<BackButton
 						label={"Back"}
 						onClick={() => {
-							navigate("/admin/actions/createCustomer");
+							navigate("/admin/actions");
 						}}
 					/>
 				</div>
