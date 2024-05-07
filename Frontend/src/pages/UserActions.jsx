@@ -20,7 +20,7 @@ const UserActions = () => {
 
 	useEffect(() => {
 		axios({
-			url: "http://localhost:3001/api/v1/user/getCompanies",
+			url: "https://emoti-backend.vercel.app/api/v1/user/getCompanies",
 			method: "GET",
 			headers: {
 				Authorization: `Bearer ${localStorage.getItem("token")}`,

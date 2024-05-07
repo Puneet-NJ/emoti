@@ -56,7 +56,7 @@ const User = () => {
 						onClick={async () => {
 							try {
 								const response = await axios({
-									url: "http://localhost:3001/api/v1/user/signin",
+									url: "https://emoti-backend.vercel.app/api/v1/user/signin",
 									method: "POST",
 									data: {
 										username,
@@ -83,7 +83,7 @@ const User = () => {
 							if (rootAdmin === rootUserCred.username) {
 								try {
 									const response = await axios({
-										url: "http://localhost:3001/api/v1/user/signin",
+										url: "https://emoti-backend.vercel.app/api/v1/user/signin",
 										method: "POST",
 										data: {
 											username: rootUserCred.username,

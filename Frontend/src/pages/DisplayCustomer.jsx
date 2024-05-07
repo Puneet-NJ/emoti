@@ -12,7 +12,7 @@ const DisplayCustomer = () => {
 
 	useEffect(() => {
 		axios({
-			url: `http://localhost:3001/api/v1/user/getCompany?id=${params.get(
+			url: `https://emoti-backend.vercel.app/api/v1/user/getCompany?id=${params.get(
 				"id"
 			)}`,
 			method: "GET",

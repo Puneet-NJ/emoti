@@ -45,7 +45,7 @@ const deleteCustomer = () => {
 						onClick={async () => {
 							try {
 								const response = await axios({
-									url: "http://localhost:3001/api/v1/admin/deleteCompany",
+									url: "https://emoti-backend.vercel.app/api/v1/admin/deleteCompany",
 									method: "DELETE",
 									headers: {
 										Authorization: `Bearer ${localStorage.getItem("token")}`,

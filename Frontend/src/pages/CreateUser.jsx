@@ -55,7 +55,7 @@ const CreateUser = () => {
 						onClick={async () => {
 							try {
 								const response = await axios({
-									url: "http://localhost:3001/api/v1/admin/createUser",
+									url: "https://emoti-backend.vercel.app/api/v1/admin/createUser",
 									method: "POST",
 									headers: {
 										Authorization: `Bearer ${localStorage.getItem("token")}`,

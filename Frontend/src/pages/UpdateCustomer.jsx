@@ -19,7 +19,7 @@ const UpdateCustomer = () => {
 
 	useEffect(() => {
 		axios({
-			url: "http://localhost:3001/api/v1/user/getCompanies",
+			url: "https://emoti-backend.vercel.app/api/v1/user/getCompanies",
 			method: "GET",
 			headers: {
 				Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -82,7 +82,7 @@ const UpdateCustomer = () => {
 						onClick={async () => {
 							try {
 								const response = await axios({
-									url: "http://localhost:3001/api/v1/admin/createCompany",
+									url: "https://emoti-backend.vercel.app/api/v1/admin/createCompany",
 									method: "POST",
 									headers: {
 										Authorization: `Bearer ${localStorage.getItem("token")}`,
