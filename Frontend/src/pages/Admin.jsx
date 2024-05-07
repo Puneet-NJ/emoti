@@ -71,7 +71,6 @@ const Admin = () => {
 								if (response.status === 200) {
 									setAdmin(true);
 									navigate("/admin/actions");
-									console.log("what");
 								}
 							} catch (err) {
 								setError(err.response.data.msg);
